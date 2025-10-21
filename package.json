@@ -1,0 +1,10 @@
+{
+  "name": "obong-typing-game",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "esbuild index.tsx --bundle --outfile=dist/index.js --loader:.js=jsx --jsx=automatic"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.2"
+  }
+}
