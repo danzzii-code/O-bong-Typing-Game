@@ -124,8 +124,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ score }) => (
   <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
     <div className="bg-white rounded-2xl p-12 text-center shadow-2xl animate-pulse">
       <h3 className="text-3xl font-bold text-gray-700 mb-4">도전 완료!</h3>
-      <p className="text-5xl font-bold text-green-600 mb-2">{score.wpm}타/분</p>
-      <p className="text-3xl text-gray-500">{score.accuracy}%</p>
+      <p className="text-5xl font-bold text-green-600">{score.wpm}타/분</p>
     </div>
   </div>
 );
@@ -139,7 +138,18 @@ interface HallOfFameDisplayProps {
 }
 
 export const HallOfFameDisplay: React.FC<HallOfFameDisplayProps> = ({ scores, currentScore, onRestart, title, isLobbyView = false }) => {
-  const sortedScores = [...scores].sort((a, b) => b.wpm - a.wpm || b.accuracy - a.accuracy);
+  const sortedScores = [...scores].sort((a, b) => {
+    // 1. 점수(타수)가 높을수록 순위가 높다.
+    if (b.wpm !== a.wpm) {
+      return b.wpm - a.wpm;
+    }
+    // 2. 점수가 같으면 정확도가 높을수록 순위가 높다.
+    if (b.accuracy !== a.accuracy) {
+      return b.accuracy - a.accuracy;
+    }
+    // 3. 점수와 정확도가 모두 같으면 먼저 기록한 사람이 순위가 높다.
+    return a.timestamp - b.timestamp;
+  });
 
   return (
     <div className={`flex flex-col items-center h-full p-4 ${isLobbyView ? 'justify-start' : 'justify-center'}`}>
@@ -166,8 +176,7 @@ export const HallOfFameDisplay: React.FC<HallOfFameDisplayProps> = ({ scores, cu
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-xl text-green-600">{score.wpm}타/분</p>
-                  <p className="text-sm text-gray-500">{score.accuracy}%</p>
+                  <p className="font-bold text-xl text-green-600">{score.wpm}점</p>
                 </div>
               </li>
             );
