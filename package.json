@@ -2,7 +2,7 @@
   "name": "obong-typing-game",
   "version": "1.0.0",
   "scripts": {
-    "build": "esbuild index.tsx --bundle --outfile=dist/index.js --loader:.tsx=tsx --jsx=automatic"
+    "build": "esbuild index.tsx --bundle --outfile=dist/index.js --loader:.tsx=tsx --jsx=automatic --external:react --external:react-dom/*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
